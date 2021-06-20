@@ -52,21 +52,44 @@ $post = checkInput( $post );
 //エラーメッセージを保存する配列の初期化
 $error = array();
 
+$return_body = ['status' => 200, 'error' => ''];
+
 //値の検証
 if ( preg_match( '/\A[[:^cntrl:]]{0,50}\z/u', $companyname ) == 0 ) {
   $error['companyname'] = '*会社名／団体名は50文字以内でお願いします。';
+  $returnBody = ['error' => '*会社名／団体名は50文字以内でお願いします。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  return $jsonstr;
+
 }
 if ( $name == '' ) {
   $error['name'] = '*お名前は必須項目です。';
   //制御文字でないことと文字数をチェック
 } else if ( preg_match( '/\A[[:^cntrl:]]{1,30}\z/u', $name ) == 0 ) {
   $error['name'] = '*お名前は30文字以内でお願いします。';
+  $returnBody = ['error' => '*お名前は30文字以内でお願いします。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 if ( $furigana  == '' ) {
   $error['furigana '] = '*お名前は必須項目です。';
   //制御文字でないことと文字数をチェック
 } else if ( preg_match( '/\A[[:^cntrl:]]{1,50}\z/u', $furigana  ) == 0 ) {
   $error['furigana '] = '*お名前は50文字以内でお願いします。';
+  $returnBody = ['error' => '*お名前は50文字以内でお願いします。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 if ( $email == '' ) {
   $error['email'] = '*メールアドレスは必須です。';
@@ -74,6 +97,13 @@ if ( $email == '' ) {
   $pattern = '/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/uiD';
   if ( !preg_match( $pattern, $email ) ) {
     $error['email'] = '*メールアドレスの形式が正しくありません。';
+    $returnBody = ['error' => '*メールアドレスの形式が正しくありません。'];
+    $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+    $http_response_code = 403;
+    $GLOBALS['http_response_code'] = $http_response_code;
+    header($jsonstr . $http_response_code);
+
+    return $jsonstr;
   }
 }
 if ( $email_check == '' ) {
@@ -81,22 +111,64 @@ if ( $email_check == '' ) {
 } else { //メールアドレスを正規表現でチェック
   if ( $email_check !== $email ) {
     $error['email_check'] = '*メールアドレスが一致しません。';
+    $returnBody = ['error' => '*メールアドレスが一致しません。'];
+    $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+    $http_response_code = 403;
+    $GLOBALS['http_response_code'] = $http_response_code;
+    header($jsonstr . $http_response_code);
+    
+    return $jsonstr;
   }
 }
 if ( preg_match( '/\A[[:^cntrl:]]{0,30}\z/u', $tel ) == 0 ) {
   $error['tel'] = '*電話番号は30文字以内でお願いします。';
+  $returnBody = ['error' => '*電話番号は30文字以内でお願いします。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 if ( $tel != '' && preg_match("/^0\d{9,10}$/", $tel ) == 0 ) {
   $error['tel_format'] = '*電話番号の形式が正しくありません。';
+  $returnBody = ['error' => '*電話番号の形式が正しくありません。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 if(!isset($post['contact_type'])){
   $error['contact_type'] = '*お問い合わせジャンルは必須項目です。';
+  $returnBody = ['error' => '*お問い合わせジャンルは必須項目です。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 if ( $contents == '' ) {
   $error['contents'] = '*内容は必須項目です。';
+  $returnBody = ['error' => '*内容は必須項目です。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
   //制御文字（タブ、復帰、改行を除く）でないことと文字数をチェック
 } else if ( preg_match( '/\A[\r\n\t[:^cntrl:]]{1,1050}\z/u', $contents ) == 0 ) {
   $error['contents'] = '*内容は1000文字以内でお願いします。';
+  $returnBody = ['error' => '*内容は1000文字以内でお願いします。'];
+  $jsonstr =  json_encode($returnBody, JSON_UNESCAPED_UNICODE);
+  $http_response_code = 403;
+  $GLOBALS['http_response_code'] = $http_response_code;
+  header($jsonstr . $http_response_code);
+  
+  return $jsonstr;
 }
 
 //エラーがなく且つ POST でのリクエストの場合
