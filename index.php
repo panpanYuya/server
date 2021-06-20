@@ -62,7 +62,7 @@ if ( preg_match( '/\A[[:^cntrl:]]{0,50}\z/u', $companyname ) == 0 ) {
   $http_response_code = 403;
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
-  return $jsonstr;
+  return;
 
 }
 if ( $name == '' ) {
@@ -76,7 +76,7 @@ if ( $name == '' ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return;
 }
 if ( $furigana  == '' ) {
   $error['furigana '] = '*お名前は必須項目です。';
@@ -89,7 +89,7 @@ if ( $furigana  == '' ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
 }
 if ( $email == '' ) {
   $error['email'] = '*メールアドレスは必須です。';
@@ -103,7 +103,7 @@ if ( $email == '' ) {
     $GLOBALS['http_response_code'] = $http_response_code;
     header($jsonstr . $http_response_code);
 
-    return $jsonstr;
+    return ;
   }
 }
 if ( $email_check == '' ) {
@@ -117,7 +117,7 @@ if ( $email_check == '' ) {
     $GLOBALS['http_response_code'] = $http_response_code;
     header($jsonstr . $http_response_code);
     
-    return $jsonstr;
+    return ;
   }
 }
 if ( preg_match( '/\A[[:^cntrl:]]{0,30}\z/u', $tel ) == 0 ) {
@@ -128,7 +128,7 @@ if ( preg_match( '/\A[[:^cntrl:]]{0,30}\z/u', $tel ) == 0 ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
 }
 if ( $tel != '' && preg_match("/^0\d{9,10}$/", $tel ) == 0 ) {
   $error['tel_format'] = '*電話番号の形式が正しくありません。';
@@ -138,7 +138,7 @@ if ( $tel != '' && preg_match("/^0\d{9,10}$/", $tel ) == 0 ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
 }
 if(!isset($post['contact_type'])){
   $error['contact_type'] = '*お問い合わせジャンルは必須項目です。';
@@ -148,7 +148,7 @@ if(!isset($post['contact_type'])){
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
 }
 if ( $contents == '' ) {
   $error['contents'] = '*内容は必須項目です。';
@@ -158,7 +158,8 @@ if ( $contents == '' ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
+
   //制御文字（タブ、復帰、改行を除く）でないことと文字数をチェック
 } else if ( preg_match( '/\A[\r\n\t[:^cntrl:]]{1,1050}\z/u', $contents ) == 0 ) {
   $error['contents'] = '*内容は1000文字以内でお願いします。';
@@ -168,7 +169,7 @@ if ( $contents == '' ) {
   $GLOBALS['http_response_code'] = $http_response_code;
   header($jsonstr . $http_response_code);
   
-  return $jsonstr;
+  return ;
 }
 
 //エラーがなく且つ POST でのリクエストの場合
